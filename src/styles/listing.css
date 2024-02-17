@@ -1,0 +1,49 @@
+.listings-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .listing {
+    position: relative;
+    width: 200px; /* Match width with .listing-image */
+    height: 150px; /* Match height with .listing-image */
+    overflow: hidden;
+    border-radius: 4px; /* Optional: for rounded corners */
+  }
+  
+  .listing-image {
+    width: 100%; /* Fill the parent .listing width */
+    height: 100%; /* Fill the parent .listing height */
+    object-fit: cover; /* This will cover the area, cropping the image if necessary */
+  }
+  
+  .listing-info {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    color: white;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box; /* Include padding in the element's dimensions */
+  }
+  
+  .listing:hover .listing-image {
+    transform: scale(1.1);
+  }
+  
+  .listing:hover .listing-info {
+    visibility: visible;
+    opacity: 1;
+  }
+  
