@@ -5,6 +5,7 @@ import Root from "./Root.tsx";
 import Home from "./Home.tsx";
 import Listings from "./routes/Listings.tsx";
 import Profile from "./routes/Profile.tsx";
+import Login from "./routes/Login.tsx"
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
         path: "/profile",
         element: <Profile />,
       },
+      {
+        path: "/login",
+        element: <Login />
+      }
     ],
   },
 ]);
