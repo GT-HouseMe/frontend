@@ -4,10 +4,8 @@ import './styles/homepage.css'
 const Home = () => {
   return (
     <div className="center">
-      <img src={logoBlack} alt="Logo" className="logo" />
-      <h2>Renting made simple, for students, by students</h2>
-      <button>Login</button>
-      <button>Sign Up</button>
+      <img src={logoBlack} alt="Logo" className="logo noDrag" />
+      <h2 className ="bigText">Renting made simple, for students, by students</h2>
     </div>
   );
 };
