@@ -1,4 +1,4 @@
-import logoBlack from '../public/logoBlack.png';
+import logoBlack from './assets/logoBlack.png';
 import './styles/homepage.css'
 
 const Home = () => {
