@@ -10,23 +10,26 @@
     background-position: center;
     background-size: cover;
 }
-.leftArrow {
+.sliderButton {
     position: absolute;
     top: 50%;
     transform: translate(0, -50%);
-    left: 32px;
     font-size: 45px;
-    color: white;
+    color: rgba(255, 255, 255, 0.5);
     z-index: 1;
     cursor: pointer;
+    border-radius: .25rem;
+    padding: 0 10px;
+    background-color: rgba(0, 0, 0, 0.1);
 }
-.rightArrow {
-    position: absolute;
-    top: 50%;
-    transform: translate(0, -50%);
-    right: 32px;
-    font-size: 45px;
+.sliderButton:hover,
+.sliderButton:focus {
     color: white;
-    z-index: 1;
-    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.sliderButton.leftArrow {
+    left: 10px;
+}
+.sliderButton.rightArrow {
+    right: 10px;
 }
