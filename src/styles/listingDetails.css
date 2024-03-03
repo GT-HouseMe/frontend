@@ -1,5 +1,29 @@
-.containerStyle {
+.imgContainer {
     width: 500px;
     height: 280px;
     margin: 0 auto;
+}
+.textBox {
+    padding-left: 10%;
+}
+.leftSide {
+    float: left;
+    width: 70%;
+    padding: 10px;
+
+}
+.rightSide {
+    float: right;
+    width: 30%;
+    padding: 10px;
+}
+h1 {
+    font-size: 32px;
+    text-align: center;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: small;
 }
