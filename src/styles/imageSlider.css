@@ -1,0 +1,35 @@
+.sliderStyles {
+    height: 100%;
+    position: relative;
+}
+
+.slideStyles {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    background-position: center;
+    background-size: cover;
+}
+.sliderButton {
+    position: absolute;
+    top: 50%;
+    transform: translate(0, -50%);
+    font-size: 45px;
+    color: rgba(255, 255, 255, 0.5);
+    z-index: 1;
+    cursor: pointer;
+    border-radius: .25rem;
+    padding: 0 10px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+.sliderButton:hover,
+.sliderButton:focus {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.sliderButton.leftArrow {
+    left: 10px;
+}
+.sliderButton.rightArrow {
+    right: 10px;
+}
