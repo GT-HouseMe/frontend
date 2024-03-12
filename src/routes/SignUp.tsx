@@ -1,9 +1,9 @@
 import { useRef } from 'react'
 
 import "../styles/base.css"
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 
-const Login = () => {
+const SignUp = () => {
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
 
@@ -37,14 +37,13 @@ const Login = () => {
               </div>
 
               <div>
-                  <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 mx-0 px-0 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+                  <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 mx-0 px-0 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign up</button>
               </div>
             </form>
-            <div>New to HouseMe? <Link to="/SignUp">Create Account.</Link></div>
         </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default SignUp;
