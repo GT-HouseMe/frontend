@@ -1,20 +1,47 @@
 import { useRef } from 'react'
-
+import axios from 'axios'
 import "../styles/base.css"
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
 
 const Login = () => {
+  //const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
+
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+
+    const email = emailRef.current?.value;
+    const password = passwordRef.current?.value;
     
     if (emailRef.current && passwordRef.current) {
       console.log(emailRef.current.value, passwordRef.current.value)
+      const userData = await loginUser({
+        email,
+        password
+      })
+      console.log(userData)
+      console.log('User data from cookie:', Cookies.get('userData'));
     }
   }
-
+  async function loginUser(credentials) {
+    try {
+      const response = await axios.post('http://localhost:3000/auth/login', credentials, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      const userData = response.data;
+      Cookies.set('userData', userData, { expires: 7 });  //expires in 7 days
+      return userData;
+    } catch (error) {
+      // Handle error
+      console.error('An error occurred:', error);
+      throw error; // Propagate the error for handling further up the chain if needed
+    }
+  }
   return (
     <div>
       <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
@@ -37,7 +64,7 @@ const Login = () => {
               </div>
 
               <div>
-                  <button type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 mx-0 px-0 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
+                  <button type="submit" onClick={() => loginUser(credentials)} className="flex w-full justify-center rounded-md bg-indigo-600 mx-0 px-0 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
               </div>
             </form>
             <div>New to HouseMe? <Link to="/SignUp">Create Account.</Link></div>
