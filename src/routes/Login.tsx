@@ -3,12 +3,14 @@ import axios from 'axios'
 import "../styles/base.css"
 import { Link } from 'react-router-dom';
 import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   //const [cookies, setCookie, removeCookie] = useCookies(['cookie-name']);
 
   const emailRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
+  const navigate = useNavigate();
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -35,9 +37,9 @@ const Login = () => {
       });
       const userData = response.data;
       Cookies.set('userData', userData, { expires: 7 });  //expires in 7 days
+      navigate('/listings');
       return userData;
     } catch (error) {
-      // Handle error
       console.error('An error occurred:', error);
       throw error; // Propagate the error for handling further up the chain if needed
     }
