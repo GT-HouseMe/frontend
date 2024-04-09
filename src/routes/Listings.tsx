@@ -1,51 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import "../styles/base.css";
 import "../styles/listing.css";
-import image1 from '../assets/images/apartment1.jpeg';
-import image2 from '../assets/images/apartment2.jpeg';
-import image3 from '../assets/images/apartment3.jpeg';
+import axios from 'axios';
 
-// Mock data for the listings, now including a placeholder for images
-const mockListings = [
-  { id: 1, title: "Cozy Studio near Campus", price: "800", bedrooms: 1, location: "Downtown", imageUrl: image1 },
-  { id: 2, title: "2 Bedroom Apartment", price: "1200", bedrooms: 2, location: "Suburbs", imageUrl: image2 },
-  { id: 3, title: "Shared Room in House", price: "500", bedrooms: 1, location: "Near Park", imageUrl: image3 },
-  // Add more listings as needed
-];
+// Define a type for the listing to match the data structure
+interface Listing {
+  _id: string;
+  location: string;
+  rent: number;
+  startDate: string;
+  endDate: string;
+  description: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+// Define a type for the response structure
+interface ListingsResponse {
+  count: number;
+  data: Listing[];
+}
 
 const Listings = () => {
-  const [listings, setListings] = useState([]);
+  const [listings, setListings] = useState<Listing[]>([]);
 
   useEffect(() => {
-    setListings(mockListings);
+    axios.get<ListingsResponse>('http://localhost:3000/listings', {
+      headers: {
+        'Authorization': `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWVhMjYyYWNkZGI2ZGMzYmNjZGNjNjMiLCJuYW1lIjoiQWxsaXNvbiBUYW5nIiwiaWF0IjoxNzEyMTAwMDg5LCJleHAiOjE3MTQ2OTIwODl9.-000uegzUMHYd5PDtNBeTx0GA7EACkgjLiHgxZUIYcY`
+      }
+    })
+    .then(response => {
+      // Now TypeScript knows the shape of your data
+      console.log(response.data.data)
+      setListings(response.data.data);
+    })
+    .catch(error => {
+      console.error("Error fetching listings:", error);
+    });
   }, []);
-
+  
   return (
     <div className="listings-container">
       <h1>Listings Page</h1>
-      <div className="search-bar">
-        <input type="text" placeholder="Search by location, price, etc..." />
-        <button>Search</button>
-      </div>
-      <div className="filters">
-        <select>
-          <option value="">Select number of bedrooms</option>
-          <option value="1">1 Bedroom</option>
-          <option value="2">2 Bedrooms</option>
-          <option value="3">3 Bedrooms</option>
-          {/* Add more options as needed */}
-        </select>
-        <input type="range" min="500" max="3000" step="100" />
-        <span>Price Range</span>
-      </div>
       <div className="listings-grid">
-        {listings.map(listing => (
-          <div key={listing.id} className="listing">
-            <img src={listing.imageUrl} alt={listing.title} className="listing-image" />
+        {listings.map((listing) => (
+          <div key={listing._id} className="listing">
+            <div className="listing-image-placeholder" style={{ background: '#ddd', height: '200px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+              <span>Image Not Available</span>
+            </div>
             <div className="listing-info">
-              <h2>{listing.title}</h2>
-              <p>Price: ${listing.price}</p>
-              <p>Bedrooms: {listing.bedrooms}</p>
+              <h2>{listing.description}</h2>
+              <p>Price: ${listing.rent}</p>
               <p>Location: {listing.location}</p>
             </div>
           </div>
