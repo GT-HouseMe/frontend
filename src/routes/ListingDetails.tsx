@@ -7,6 +7,7 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import React from 'react';
 import ReserveMessageSidebar from '../components/ReserveMessageSidebar';
+import Cookies from 'js-cookie';
 const ListingDetails = () => {
   const slides = [
     {img: apartment},
@@ -14,11 +15,11 @@ const ListingDetails = () => {
     {img: apartmentInside2}
   ]
   const [listings, setListings] = React.useState([])
-  useEffect(() => {
-    axios.get('http://localhost:3000/listings').then((response) => {
-      setListings(response.data)
-    })
-  }, [])
+  // useEffect(() => {
+  //   axios.get('http://localhost:3000/listings').then((response) => {
+  //     setListings(response.data)
+  //   })
+  // }, [])
   console.log(listings)
   
   return (
