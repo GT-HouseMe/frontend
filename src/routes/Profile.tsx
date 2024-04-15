@@ -1,5 +1,5 @@
 import "../styles/profile.css";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import galleryimg from './Images/mikeandsully.jpg'
 import profilepic from './Images/profile.png'
 import Cookies from 'js-cookie';
