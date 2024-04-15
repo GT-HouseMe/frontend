@@ -84,7 +84,7 @@ const ListingDetails = () => {
             gap: "5em",
             flexWrap: 'wrap'
           }}>
-          <div >
+          <div>
             <h2>Information</h2>
             <div>
               <p>Rent: ${listings?.rent}/month</p>

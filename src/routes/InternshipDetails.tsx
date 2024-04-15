@@ -57,16 +57,28 @@ const InternshipDetails = () => {
         {/* <div className='imgContainer'>
           <ImageSlider slides={slides}/>
         </div> */}
-        <h2>Information</h2>
-        <div className='leftSide'>
-          <p>Location: {internship?.location}</p>
-          <p>Start Date: {internship?.startDate.split('T')[0]}</p>
-          <p>End Date: {internship?.endDate.split('T')[0]}</p>
-        </div>
-        <h2 className = 'rightSide'>Contact Information</h2>
-        <div className='rightSide'>
-          <p>Name: {internship?.createdBy.name}</p>
-          <p>Email: {internship?.createdBy.email}</p>
+
+        <div style={{
+            display: 'flex',
+            justifyContent: 'row',
+            gap: "5em",
+            flexWrap: 'wrap'
+          }}>
+          <div>
+          <h2>Information</h2>
+          <div>
+            <p>Location: {internship?.location}</p>
+            <p>Start Date: {internship?.startDate.split('T')[0]}</p>
+            <p>End Date: {internship?.endDate.split('T')[0]}</p>
+          </div>
+          </div>
+          <div>
+            <h2>Contact Information</h2>
+              <div>
+                <p>Name: {internship?.createdBy.name}</p>
+                <p>Email: {internship?.createdBy.email}</p>
+              </div>
+          </div>
         </div>
         {/* <div className='rightSide'>
           <ReserveMessageSidebar/>
