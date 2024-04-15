@@ -12,6 +12,8 @@ import ListingDetails from "./routes/ListingDetails.tsx";
 import InternshipDetails from "./routes/InternshipDetails.tsx";
 import CreateInternship from "./routes/CreateInternship.tsx";
 import CreateListing from "./routes/CreateListing.tsx";
+import InternshipEdit from "./routes/InternshipEdit.tsx";
+import ListingEdit from "./routes/ListingEdit.tsx";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -59,6 +61,14 @@ const router = createBrowserRouter([
       {
         path: "/internshipDetails/:id",
         element: <InternshipDetails />,
+      },
+      {
+        path: "/listingEdit/:id",
+        element: <ListingEdit />,
+      },
+      {
+        path: "/internshipEdit/:id",
+        element: <InternshipEdit />,
       }
     ],
   },

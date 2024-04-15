@@ -8,6 +8,8 @@ import { useState, useEffect } from 'react';
 import Listing from './Listing';
 import Internship from './Internship';
 import { useNavigate } from 'react-router-dom';
+import InternshipEdit from './InternshipEdit';
+import ListingEdit from './ListingEdit';
 
 // Define a type for the listing to match the data structure
 interface Listing {
@@ -121,7 +123,10 @@ const Profile = () => {
           <td valign="top">
             <center>
             {userListings.map(listing => (
+              <div>
               <Listing key={listing._id} name={listing.name} location={listing.location} rent={listing.rent} startDate={listing.startDate} endDate={listing.endDate} description={listing.description} />
+              <button onClick = {() => navigate(`/listingEdit/${listing._id}`)}>Edit</button>
+              </div>
             ))}
             <button onClick = {() => navigate('/createlisting')}>Add Listing</button>
             </center>
@@ -129,7 +134,10 @@ const Profile = () => {
           <td valign="top">
             <center>
             {userInternships.map(internship => (
+              <div>
               <Internship key={internship._id} company={internship.company} location={internship.location} startDate={internship.startDate} endDate={internship.endDate} description={internship.description} />
+              <button onClick = {() => navigate(`/internshipEdit/${internship._id}`)}>Edit</button>
+              </div>
             ))}
             <button onClick = {() => navigate('/createinternship')}>Add Internship</button>
             </center>
