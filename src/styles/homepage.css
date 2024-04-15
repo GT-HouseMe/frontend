@@ -34,3 +34,29 @@ button {
     font-size: 50px;
 }
 
+#houseme-header {
+    font-weight: 200;
+    font-size: 5em;
+    background-color: #fafafa;
+    background-image: linear-gradient(to right, rgb(30 64 175), rgb(107 33 168));
+    background-size: 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -moz-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    -moz-text-fill-color: transparent;
+}
+@media screen and (max-width: 1250px){
+    .banner{
+       flex-direction: column;
+    }
+    .banner > img {
+        display: none;
+    }
+    .banner > #header-parent {
+        font-size: 0.8em !important;
+    }
+    .bigText {
+        font-size: 3em !important;
+    }
+ }
