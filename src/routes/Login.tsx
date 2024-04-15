@@ -24,7 +24,7 @@ const Login = () => {
         email,
         password
       })
-      console.log('User data from cookie:', Cookies.get('userData'));
+      console.log('User data from cookie:', Cookies.get('token'));
     }
   }
   async function loginUser(credentials) {
@@ -34,9 +34,10 @@ const Login = () => {
           'Content-Type': 'application/json'
         }
       });
-      const userData = response.data.userId;
+      const userData = response.data;
       console.log('User data:', userData);
-      Cookies.set('userData', userData, { expires: 7 });  //expires in 7 days
+      Cookies.set('userId', userData.userId, { expires: 7 });  //expires in 7 days
+      Cookies.set('token', userData.token, { expires: 7 });  //expires in 7 days
       navigate('/listings');
       return userData;
     } catch (error) {

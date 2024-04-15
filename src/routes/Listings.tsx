@@ -17,6 +17,7 @@ interface Listing {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  name: string;
 }
 
 // Define a type for the response structure
