@@ -24,7 +24,6 @@ const Login = () => {
         email,
         password
       })
-      console.log(userData)
       console.log('User data from cookie:', Cookies.get('userData'));
     }
   }
@@ -35,7 +34,8 @@ const Login = () => {
           'Content-Type': 'application/json'
         }
       });
-      const userData = response.data;
+      const userData = response.data.token;
+      console.log('User data:', userData);
       Cookies.set('userData', userData, { expires: 7 });  //expires in 7 days
       navigate('/listings');
       return userData;
