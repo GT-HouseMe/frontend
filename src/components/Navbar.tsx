@@ -1,5 +1,6 @@
 import { Link, NavLink } from "react-router-dom";
 import "../styles/base.css";
+import Cookies from 'js-cookie';
 
 const activeLinkClass =
   "block py-2 px-3 md:p-0 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:dark:text-blue-500";
@@ -20,14 +21,25 @@ const Navbar = () => {
           </span>
         </Link>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          <Link to="/login">
-            <button
-                type="button"
-                className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            >
-                Login
-            </button>
-          </Link>
+          {!Cookies.get('token') ?
+            <Link to="/login">
+              <button
+                  type="button"
+                  className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              >
+                  Login
+              </button>
+            </Link>
+          :
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              isActive ? activeLinkClass : restingLinkClass
+            }
+          >
+            Profile
+          </NavLink>
+          }
         </div>
         <div
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
@@ -56,12 +68,12 @@ const Navbar = () => {
             </li>
             <li>
               <NavLink
-                to="/profile"
+                to="/internships"
                 className={({ isActive }) =>
                   isActive ? activeLinkClass : restingLinkClass
                 }
               >
-                Profile
+                Internship
               </NavLink>
             </li>
           </ul>

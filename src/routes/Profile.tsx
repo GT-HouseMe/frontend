@@ -3,41 +3,99 @@ import { Link, useParams } from "react-router-dom";
 import galleryimg from './Images/mikeandsully.jpg'
 import profilepic from './Images/profile.png'
 import Cookies from 'js-cookie';
-import { ChangeEvent, SetStateAction, useState } from 'react';
-import axios from 'axios';
+import axios from 'axios'
+import { useState, useEffect } from 'react';
+import Listing from './Listing';
+import Internship from './Internship';
+import { useNavigate } from 'react-router-dom';
+import InternshipEdit from './InternshipEdit';
+import ListingEdit from './ListingEdit';
+
+// Define a type for the listing to match the data structure
+interface Listing {
+  _id: string;
+  location: string;
+  rent: number;
+  startDate: string;
+  endDate: string;
+  description: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  name: string;
+}
+
+// Define a type for the response structure
+interface ListingsResponse {
+  count: number;
+  data: Listing[];
+}
+
+// Define a type for the listing to match the data structure
+interface Internship {
+  _id: string;
+  company: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  description: string;
+  createdBy: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+}
+
+// Define a type for the response structure
+interface InternshipsResponse {
+  count: number;
+  data: Internship[];
+}
 
 const Profile = () => {
-  console.log('cookies: ', Cookies.get());
-  const user = useParams();
-  console.log(user);
-  const [username, setUsername] = useState<string>("user123@email.com");
-  axios.get('http://localhost:3000/users/${user}').then((response) => setUsername(response.data.email));
-  const [name, setName] = useState<string>("Yee Haw");
-  axios.get('http://localhost:3000/users/${user}').then((response) => setName(response.data.name));
-  const [description, setDescription] = useState<string>("Describe yourself here");
-  axios.get('http://localhost:3000/users/${user}').then((response) => setDescription(response.data.description));
-  const [edit, setEdit] = useState<string>("Edit Profile");
-  const [friends, setFriends] = useState<Array<string>>([""]);
-  axios.get('http://localhost:3000/users').then((response) => setFriends(response.data));
-  let d = "Describe yourself here";
-  function handleEditProfile() {
-    if (edit == "Edit Profile") {
-      setEdit("Save");
-    } else {
-      setDescription(d);
-      axios.patch('http://localhost:3000/users/${user}', {description: description}).then(response => console.log(response.data)).catch(error => console.log(error.response));
-      setEdit("Edit Profile");
-    }
-  }
-  function handleFindFriends() {
-    setFriends([...friends, "person"])
-  }
-  function handleAddDescription(event: ChangeEvent) {
-    if (edit == "Save" && event.currentTarget.tagName != "") {
-      d = event.currentTarget.tagName;
-    }
-  }
-  const toList = n => <li>{n}</li>;
+  const userId = Cookies.get('userId');
+  const token = Cookies.get('token');
+  const [userData, setUserData] = useState({name: '', email: '', password: '', description: ''});
+  const [userListings, setUserListings] = useState<Listing[]>([]);
+  const [userInternships, setUserInternships] = useState<Internship[]>([]);
+  const navigate = useNavigate();
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios.get(`http://localhost:3000/auth/details/${userId}`, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        // Now TypeScript knows the shape of your data
+        setUserData(response.data);
+      });
+      await axios.get<ListingsResponse>(`http://localhost:3000/listings`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        // Now TypeScript knows the shape of your data
+        setUserListings(response.data.data);
+      });
+      await axios.get<InternshipsResponse>(`http://localhost:3000/internships`, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      })
+      .then(response => {
+        // Now TypeScript knows the shape of your data
+        setUserInternships(response.data.data);
+      });
+    };
+    fetchData();
+  }, [userId]);
+  const { name, email, password, description } = userData;
+  
   return (
     <div>
       <center>
@@ -46,60 +104,44 @@ const Profile = () => {
       <br />
       <table>
         <tr>
-          <th>
-          <center><img src={profilepic} width="100px" height="100px"></img></center>
-          <h2>{username}</h2></th>
-          <th><h2>Current Residence</h2></th>
-          <th><h2>Friends</h2></th>
+          <th></th>
+          <th><h2>Listings</h2></th>
+          <th><h2>Internships</h2></th>
         </tr>
         <tr>
-          <td><center>{name}</center>
+          <td valign="top">
+            <center>
+            <img src={profilepic} width="100px" height="100px"></img>
+            <h2>Name:</h2>
+            <h3>{name}</h3>
+            <h2>Email:</h2>
+            <h3>{email}</h3>
+            <h2>Description:</h2>
+            <h3>{description}</h3>
+            </center>
           </td>
-          <td><center>
-            Homeless <br />
-            <Link className="listings" to="/Listings">View Available Housing</Link></center></td>
-          <td><center><button type="button" onClick={handleFindFriends}>Add People</button></center></td>
-        </tr>
-        <tr>
-          <td><center><br /><br /><h2>About Me</h2></center></td>
-          <td><center><h2>Gallery</h2></center></td>
-          <td><center>Friends: <ul>{friends.map(toList)}</ul></center></td>
-        </tr>
-        <tr>
-          <td>
-          <center>
-            <textarea name="" id="" cols="30" rows="10" placeholder={description} onChange={handleAddDescription}></textarea><br />
-            <button type="button" onClick={handleEditProfile}>{edit}</button></center>
+          <td valign="top">
+            <center>
+            {userListings.map(listing => (
+              <div>
+              <Listing key={listing._id} name={listing.name} location={listing.location} rent={listing.rent} startDate={listing.startDate} endDate={listing.endDate} description={listing.description} />
+              <button onClick = {() => navigate(`/listingEdit/${listing._id}`)}>Edit</button>
+              </div>
+            ))}
+            <button onClick = {() => navigate('/createlisting')}>Add Listing</button>
+            </center>
           </td>
-          <td><center>
-            <table className="gallery">
-              <tr className="gallery">
-                <td className="gallery"><img src={galleryimg}></img></td>
-                <td className="gallery"><img src={galleryimg}></img></td>
-                <td className="gallery"><img src={galleryimg}></img></td>
-                <td className="gallery"><img src={galleryimg}></img></td>
-              </tr>
-              <tr className="gallery">
-              <td className="gallery"><img src={galleryimg}></img></td>
-                <td className="gallery"><img src={galleryimg}></img></td>
-                <td className="gallery"><img src={galleryimg}></img></td>
-                <td className="gallery"><img src={galleryimg}></img></td>
-              </tr>
-              <tr className="gallery">
-              <td className="gallery"><img src={galleryimg}></img></td>
-                <td className="gallery"><img src={galleryimg}></img></td>
-                <td className="gallery"><img src={galleryimg}></img></td>
-                <td className="gallery"><img src={galleryimg}></img></td>
-              </tr>
-              <tr className="gallery">
-              <td className="gallery"><img src={galleryimg}></img></td>
-                <td className="gallery"><img src={galleryimg}></img></td>
-                <td className="gallery"><img src={galleryimg}></img></td>
-                <td className="gallery"><img src={galleryimg}></img></td>
-              </tr>
-            </table>
-            <button type="button">Add Photos</button>
-            </center></td>
+          <td valign="top">
+            <center>
+            {userInternships.map(internship => (
+              <div>
+              <Internship key={internship._id} company={internship.company} location={internship.location} startDate={internship.startDate} endDate={internship.endDate} description={internship.description} />
+              <button onClick = {() => navigate(`/internshipEdit/${internship._id}`)}>Edit</button>
+              </div>
+            ))}
+            <button onClick = {() => navigate('/createinternship')}>Add Internship</button>
+            </center>
+          </td>
         </tr>
       </table>
       </center>
