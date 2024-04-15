@@ -20,6 +20,7 @@ interface Listing {
   createdAt: string;
   updatedAt: string;
   __v: number;
+  name: string;
 }
 const ListingDetails = () => {
   const slides = [
@@ -30,12 +31,11 @@ const ListingDetails = () => {
   const [listings, setListings] = useState<Listing | null>(null)
   // Get the id from the URL params
   const { id } = useParams();
-  const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NWVhMjYyYWNkZGI2ZGMzYmNjZGNjNjMiLCJuYW1lIjoiQWxsaXNvbiBUYW5nIiwiaWF0IjoxNzEyMTAwMDg5LCJleHAiOjE3MTQ2OTIwODl9.-000uegzUMHYd5PDtNBeTx0GA7EACkgjLiHgxZUIYcY';
   // Fetch listing details from the server using the id
   useEffect(() => {
-    axios.get<Listing>(`http://localhost:3000/listings/${id}`, {
+    axios.get<Listing>(`http://localhost:3000/listingsDisplay/${id}`, {
       headers: {
-        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json'
       }
     }).then((response) => {
       console.log(response);
@@ -54,9 +54,9 @@ const ListingDetails = () => {
         <div className='imgContainer'>
           <ImageSlider slides={slides}/>
         </div>
-        <h2>More information</h2>
+        <h2>Information</h2>
         <div className='leftSide'>
-          <p>Rent: ${listings?.rent}</p>
+          <p>Rent: ${listings?.rent}/month</p>
           <p>Location: {listings?.location}</p>
           <p>Start Date: {listings?.startDate.split('T')[0]}</p>
           <p>End Date: {listings?.endDate.split('T')[0]}</p>
