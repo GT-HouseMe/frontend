@@ -4,13 +4,13 @@ import Cookies from 'js-cookie';
 import { useNavigate, Link } from 'react-router-dom';
 import "../styles/listing.css";
 import axios from 'axios';
-import Listing from './Listing';
+import Internship from './Internship';
 
 // Define a type for the listing to match the data structure
-interface Listing {
+interface Internship {
   _id: string;
+  company: string;
   location: string;
-  rent: number;
   startDate: string;
   endDate: string;
   description: string;
@@ -18,31 +18,30 @@ interface Listing {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  name: string;
 }
 
 // Define a type for the response structure
-interface ListingsResponse {
+interface InternshipsResponse {
   count: number;
-  data: Listing[];
+  data: Internship[];
 }
 
-const Listings = () => {
-  const [listings, setListings] = useState<Listing[]>([]);
+const Internships = () => {
+  const [internships, setInternships] = useState<Internship[]>([]);
   const [authenticated, setAuthenticated] = useState(false);
   const navigate = useNavigate();
   useEffect(() => {
-    axios.get<ListingsResponse>('http://localhost:3000/listingsDisplay', {
+    axios.get<InternshipsResponse>('http://localhost:3000/internshipsDisplay', {
       headers: {
         'Content-Type': 'application/json'
       }
     })
     .then(response => {
       // Now TypeScript knows the shape of your data
-      setListings(response.data.data);
+      setInternships(response.data.data);
     })
     .catch(error => {
-      console.error("Error fetching listings:", error);
+      console.error("Error fetching internships:", error);
     });
   }, []);
   
@@ -66,11 +65,11 @@ const Listings = () => {
   return (
     authenticated ? (
       <div className="listings-container">
-        <h1>Listings Page</h1>
+        <h1>Internships Page</h1>
         <div className="listings-grid">
-          {listings.map((listing) => (
-            <div key={listing._id} className="listing">
-              <Link to={`/listingDetails/${listing._id}`} className="listing-link">
+          {internships.map((internship) => (
+            <div key={internship._id} className="listing">
+              <Link to={`/listingDetails/${internship._id}`} className="listing-link">
               {/* <div className="listing-image-placeholder" style={{ background: '#ddd', height: '200px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <span>Image Not Available</span>
               </div>
@@ -79,7 +78,7 @@ const Listings = () => {
                 <p>Price: ${listing.rent}</p>
                 <p>Location: {listing.location}</p>
               </div> */}
-              <Listing {...listing} />
+              <Internship {...internship} />
               </Link>
             </div>
           ))}
@@ -93,4 +92,4 @@ const Listings = () => {
     )
   );
 };
-export default Listings;
+export default Internships;

@@ -4,6 +4,7 @@ import ReactDOM from "react-dom/client";
 import Root from "./Root.tsx";
 import Home from "./Home.tsx";
 import Listings from "./routes/Listings.tsx";
+import Internships from './routes/Internships.tsx';
 import Profile from "./routes/Profile.tsx";
 import Login from "./routes/Login.tsx"
 import SignUp from "./routes/SignUp.tsx"
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: "/listings",
         element: <Listings />,
+      },
+      {
+        path: "/internships",
+        element: <Internships />,
       },
       {
         path: "/profile",
