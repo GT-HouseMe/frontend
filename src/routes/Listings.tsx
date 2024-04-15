@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import "../styles/base.css";
 import Cookies from 'js-cookie';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import "../styles/listing.css";
 import axios from 'axios';
 
@@ -29,7 +29,7 @@ const Listings = () => {
   const [listings, setListings] = useState<Listing[]>([]);
   const [authenticated, setAuthenticated] = useState(false);
   const navigate = useNavigate();
-
+  const token = Cookies.get('userData');
   useEffect(() => {
     axios.get<ListingsResponse>('http://localhost:3000/listings', {
       headers: {
@@ -38,7 +38,6 @@ const Listings = () => {
     })
     .then(response => {
       // Now TypeScript knows the shape of your data
-      console.log(response.data.data)
       setListings(response.data.data);
     })
     .catch(error => {
@@ -70,6 +69,7 @@ const Listings = () => {
         <div className="listings-grid">
           {listings.map((listing) => (
             <div key={listing._id} className="listing">
+              <Link to={`/listingDetails/${listing._id}`} className="listing-link">
               <div className="listing-image-placeholder" style={{ background: '#ddd', height: '200px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <span>Image Not Available</span>
               </div>
@@ -78,6 +78,7 @@ const Listings = () => {
                 <p>Price: ${listing.rent}</p>
                 <p>Location: {listing.location}</p>
               </div>
+              </Link>
             </div>
           ))}
         </div>

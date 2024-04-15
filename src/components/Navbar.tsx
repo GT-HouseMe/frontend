@@ -64,16 +64,6 @@ const Navbar = () => {
                 Profile
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/listingDetails"
-                className={({ isActive }) =>
-                  isActive ? activeLinkClass : restingLinkClass
-                }
-              >
-                Listing Details
-              </NavLink>
-            </li>
           </ul>
         </div>
       </div>
