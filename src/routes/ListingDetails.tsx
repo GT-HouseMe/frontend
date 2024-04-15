@@ -21,13 +21,14 @@ interface Listing {
     name: string;
     email: string;
   };
+  photo_file_names: string[];
   createdAt: string;
   updatedAt: string;
   __v: number;
   name: string;
 }
 const ListingDetails = () => {
-  const slides = [
+  let slides = [
     {img: apartment},
     {img: apartmentInside},
     {img: apartmentInside2}
@@ -49,7 +50,13 @@ const ListingDetails = () => {
       console.log("Axios request failed");
     });
   }, [id]);
-  console.log(listings)
+
+  if (listings?.photo_file_names.length > 0) {
+    slides = [];
+    for (let i = 0; i < listings?.photo_file_names.length; i++) {
+      slides.push({img: `http://localhost:3000/${listings?.photo_file_names[i]}`})
+    }
+  }
   
   return (
     <div>
