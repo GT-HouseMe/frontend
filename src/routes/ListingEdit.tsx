@@ -15,6 +15,7 @@ const ListingEdit = () => {
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
     const [description, setDescription] = useState('');
+    const photoRef = useRef<HTMLInputElement>(null)
 
 
     useEffect(() => {
@@ -46,6 +47,25 @@ const ListingEdit = () => {
             endDate: end,
             description
         })
+
+        await uploadPhoto({
+            photo_file_names: photoRef.current?.files
+        })
+    }
+
+    async function uploadPhoto(data) {
+        try {
+            await axios.post(`http://localhost:3000/listings/upload_photos/${id}`, data, {
+              headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${Cookies.get('token')}`
+              }
+            });
+            navigate('/profile');
+          } catch (error) {
+            console.error('An error occurred:', error);
+            throw error; // Propagate the error for handling further up the chain if needed
+          }      
     }
   
     async function editIntern(data) {
@@ -114,6 +134,15 @@ const ListingEdit = () => {
                     </div>
                     <div className="mt-2">
                       <input id="description" name="description" value = {description} onChange = {(e) => setDescription(e.target.value)} autoComplete="description" required className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                    </div>
+                </div>
+
+                <div>
+                    <div className="flex items-center justify-between">
+                      <label htmlFor="photo" className="block text-sm font-medium leading-6 text-gray-900">Upload Photos</label>
+                    </div>
+                    <div className="mt-2">
+                      <input ref={photoRef} id="photo" name="photo" type = "file" multiple autoComplete="photo" required className="p-2 block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                     </div>
                 </div>
   

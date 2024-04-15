@@ -73,7 +73,7 @@ const Navbar = () => {
                   isActive ? activeLinkClass : restingLinkClass
                 }
               >
-                Internship
+                Internships
               </NavLink>
             </li>
           </ul>
