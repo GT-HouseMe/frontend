@@ -7,6 +7,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react';
 import Listing from './Listing';
 import Internship from './Internship';
+import { useNavigate } from 'react-router-dom';
 
 // Define a type for the listing to match the data structure
 interface Listing {
@@ -55,7 +56,8 @@ const Profile = () => {
   const [userData, setUserData] = useState({name: '', email: '', password: '', description: ''});
   const [userListings, setUserListings] = useState<Listing[]>([]);
   const [userInternships, setUserInternships] = useState<Internship[]>([]);
-  console.log('token: ', token)
+  const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchData = async () => {
       await axios.get(`http://localhost:3000/auth/details/${userId}`, {
@@ -100,15 +102,14 @@ const Profile = () => {
       <br />
       <table>
         <tr>
-          <th>
-          <center><img src={profilepic} width="100px" height="100px"></img></center>
-          <h2></h2></th>
+          <th></th>
           <th><h2>Listings</h2></th>
           <th><h2>Internships</h2></th>
         </tr>
         <tr>
-          <td>
+          <td valign="top">
             <center>
+            <img src={profilepic} width="100px" height="100px"></img>
             <h2>Name:</h2>
             <h3>{name}</h3>
             <h2>Email:</h2>
@@ -117,18 +118,20 @@ const Profile = () => {
             <h3>{description}</h3>
             </center>
           </td>
-          <td>
+          <td valign="top">
             <center>
             {userListings.map(listing => (
               <Listing key={listing._id} name={listing.name} location={listing.location} rent={listing.rent} startDate={listing.startDate} endDate={listing.endDate} description={listing.description} />
             ))}
+            <button onClick = {() => navigate('/createlisting')}>Add Listing</button>
             </center>
           </td>
-          <td>
+          <td valign="top">
             <center>
             {userInternships.map(internship => (
               <Internship key={internship._id} company={internship.company} location={internship.location} startDate={internship.startDate} endDate={internship.endDate} description={internship.description} />
             ))}
+            <button onClick = {() => navigate('/createinternship')}>Add Internship</button>
             </center>
           </td>
         </tr>

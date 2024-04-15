@@ -8,6 +8,8 @@ import Profile from "./routes/Profile.tsx";
 import Login from "./routes/Login.tsx"
 import SignUp from "./routes/SignUp.tsx"
 import ListingDetails from "./routes/ListingDetails.tsx";
+import CreateInternship from "./routes/CreateInternship.tsx";
+import CreateListing from "./routes/CreateListing.tsx";
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
@@ -35,6 +37,14 @@ const router = createBrowserRouter([
       {
         path: "/signup",
         element: <SignUp />
+      },
+      {
+        path: "/createinternship",
+        element: <CreateInternship />
+      },
+      {
+        path: "/createlisting",
+        element: <CreateListing />
       },
       {
         path: "/listingDetails/:id",
