@@ -37,7 +37,7 @@ const SignUp = () => {
           'Content-Type': 'application/json'
         }
       });
-      const userData = response.data.token;
+      const userData = response.data.userId;
       console.log('User data:', userData);
       Cookies.set('userData', userData, { expires: 7 });  //expires in 7 days
       navigate('/listings');

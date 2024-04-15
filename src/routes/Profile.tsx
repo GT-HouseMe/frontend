@@ -2,10 +2,12 @@ import "../styles/profile.css";
 import { Link } from "react-router-dom";
 import galleryimg from './Images/mikeandsully.jpg'
 import profilepic from './Images/profile.png'
+import Cookies from 'js-cookie';
 
 const Profile = () => {
   const username = "user123";
   const name = "Yee Haw";
+  console.log('cookies: ', Cookies.get());
   return (
     <div>
       <center>
@@ -28,11 +30,6 @@ const Profile = () => {
             Homeless <br />
             <Link className="listings" to="/Listings">View Available Housing</Link></center></td>
           <td><center><button type="button">Find People</button></center></td>
-        </tr>
-        <tr>
-          <td><center><br /><br /><h2>About Me</h2></center></td>
-          <td><center><h2>Gallery</h2></center></td>
-          <td><center>Past Roommates:</center></td>
         </tr>
         <tr>
           <td>
