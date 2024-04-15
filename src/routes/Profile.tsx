@@ -8,6 +8,7 @@ import { useState, useEffect } from 'react';
 import Listing from './Listing';
 import Internship from './Internship';
 import { useNavigate } from 'react-router-dom';
+import ClipLoader from "react-spinners/ClipLoader";
 
 import { Button } from "@/components/ui/button"
 import {
@@ -67,6 +68,8 @@ const Profile = () => {
   const [userListings, setUserListings] = useState<Listing[]>([]);
   const [userInternships, setUserInternships] = useState<Internship[]>([]);
   const navigate = useNavigate();
+
+  let [loading, setLoading] = useState(true);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -100,7 +103,7 @@ const Profile = () => {
         setUserInternships(response.data.data);
       });
     };
-    fetchData();
+    fetchData().then(() => setLoading(false));
   }, [userId]);
   const { name, email, password, description } = userData;
   
@@ -113,6 +116,17 @@ const Profile = () => {
       columnGap: "5em",
       gap: "3em",
     }}>
+      {loading ? <>
+        <ClipLoader
+        color="black"
+        loading={loading}
+        size={75}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+      </>
+      :
+      <>
       <Card style={{
         flex: 1,
         width: "350px",
@@ -121,7 +135,7 @@ const Profile = () => {
         minHeight: 0
       }}>
         <CardHeader>
-          <CardTitle>Profile</CardTitle>
+          <CardTitle><h1>Profile</h1></CardTitle>
         </CardHeader>
       <CardContent>
       <table>
@@ -145,37 +159,36 @@ const Profile = () => {
 
       <Card className="w-[500px]">
         <CardHeader>
-          <CardTitle>My Listings</CardTitle>
+          <CardTitle><h1>My Listings</h1></CardTitle>
         </CardHeader>
       <CardContent>
         {userListings.map(listing => (
           <div>
-          <Listing key={listing._id} name={listing.name} location={listing.location} rent={listing.rent} startDate={listing.startDate} endDate={listing.endDate} description={listing.description} />
-          <button onClick = {() => navigate(`/listingEdit/${listing._id}`)}>Edit</button>
+          <Listing key={listing._id} name={listing.name} location={listing.location} rent={listing.rent} startDate={listing.startDate} endDate={listing.endDate} description={listing.description} _id={listing._id} showEdit/>
           </div>
         ))}
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="outline" onClick={() => navigate('/createlisting')}>Add Listing</Button>
+        <Button variant="outline" style={{margin: 0}} onClick={() => navigate('/createlisting')}>Add Listing</Button>
         </CardFooter>
       </Card>
 
       <Card className="w-[500px]">
         <CardHeader>
-          <CardTitle>My Internships</CardTitle>
+          <CardTitle><h1>My Internships</h1></CardTitle>
         </CardHeader>
       <CardContent>
         {userInternships.map(internship => (
           <div>
-          <Internship key={internship._id} company={internship.company} location={internship.location} startDate={internship.startDate} endDate={internship.endDate} description={internship.description} />
-          <button onClick = {() => navigate(`/internshipEdit/${internship._id}`)}>Edit</button>
+          <Internship key={internship._id} company={internship.company} location={internship.location} startDate={internship.startDate} endDate={internship.endDate} description={internship.description} _id={internship._id} showEdit/>
           </div>
         ))}
       </CardContent>
       <CardFooter className="flex justify-between">
-        <Button variant="outline" style={{width: "9em"}} onClick={() => navigate('/createinternship')}>Add Internship</Button>
+        <Button variant="outline" style={{width: "9em", margin: 0}} onClick={() => navigate('/createinternship')}>Add Internship</Button>
         </CardFooter>
       </Card>
+      </>}
     </div>
   );
 };
