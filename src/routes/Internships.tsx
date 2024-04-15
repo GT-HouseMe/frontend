@@ -69,7 +69,7 @@ const Internships = () => {
         <div className="listings-grid">
           {internships.map((internship) => (
             <div key={internship._id} className="listing">
-              <Link to={`/listingDetails/${internship._id}`} className="listing-link">
+              <Link to={`/internshipDetails/${internship._id}`} className="listing-link">
               {/* <div className="listing-image-placeholder" style={{ background: '#ddd', height: '200px', width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <span>Image Not Available</span>
               </div>

@@ -9,10 +9,10 @@ import ReserveMessageSidebar from '../components/ReserveMessageSidebar';
 import { useParams } from 'react-router-dom';
 import Cookies from 'js-cookie';
 // Define a type for the listing to match the data structure
-interface Listing {
+interface Internship {
   _id: string;
+  company: string;
   location: string;
-  rent: number;
   startDate: string;
   endDate: string;
   description: string;
@@ -24,51 +24,49 @@ interface Listing {
   createdAt: string;
   updatedAt: string;
   __v: number;
-  name: string;
 }
-const ListingDetails = () => {
-  const slides = [
-    {img: apartment},
-    {img: apartmentInside},
-    {img: apartmentInside2}
-  ]
-  const [listings, setListings] = useState<Listing | null>(null)
+const InternshipDetails = () => {
+//   const slides = [
+//     {img: apartment},
+//     {img: apartmentInside},
+//     {img: apartmentInside2}
+//   ]
+  const [internship, setInternship] = useState<Internship | null>(null)
   // Get the id from the URL params
   const { id } = useParams();
   // Fetch listing details from the server using the id
   useEffect(() => {
-    axios.get<Listing>(`http://localhost:3000/listingsDisplay/${id}`, {
+    axios.get<Internship>(`http://localhost:3000/internshipsDisplay/${id}`, {
       headers: {
         'Content-Type': 'application/json'
       }
     }).then((response) => {
       console.log(response);
-      setListings(response.data);
-      console.log('Listings:', listings);
+      setInternship(response.data);
+      console.log('Internship:', internship);
     }).catch(() => {
       console.log("Axios request failed");
     });
   }, [id]);
-  console.log(listings)
+  console.log(internship)
   
   return (
     <div>
       <div className='textBox'>
-        <h1>{listings?.name}</h1>
-        <div className='imgContainer'>
+        <h1>{internship?.company}</h1>
+        {/* <div className='imgContainer'>
           <ImageSlider slides={slides}/>
-        </div>
+        </div> */}
         <h2>Information</h2>
         <div className='leftSide'>
-          <p>Rent: ${listings?.rent}/month</p>
-          <p>Location: {listings?.location}</p>
-          <p>Start Date: {listings?.startDate.split('T')[0]}</p>
-          <p>End Date: {listings?.endDate.split('T')[0]}</p>
+          <p>Location: {internship?.location}</p>
+          <p>Start Date: {internship?.startDate.split('T')[0]}</p>
+          <p>End Date: {internship?.endDate.split('T')[0]}</p>
         </div>
         <h2 className = 'rightSide'>Contact Information</h2>
         <div className='rightSide'>
-          <p>Name: {listings?.createdBy.name}</p>
-          <p>Email: {listings?.createdBy.email}</p>
+          <p>Name: {internship?.createdBy.name}</p>
+          <p>Email: {internship?.createdBy.email}</p>
         </div>
         {/* <div className='rightSide'>
           <ReserveMessageSidebar/>
@@ -78,4 +76,4 @@ const ListingDetails = () => {
   );
 };
 
-export default ListingDetails;
+export default InternshipDetails;
