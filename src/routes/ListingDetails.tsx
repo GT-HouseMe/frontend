@@ -7,7 +7,17 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import ReserveMessageSidebar from '../components/ReserveMessageSidebar';
 import { useParams } from 'react-router-dom';
+
 import Cookies from 'js-cookie';
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
 // Define a type for the listing to match the data structure
 interface Listing {
   _id: string;
@@ -62,21 +72,39 @@ const ListingDetails = () => {
     <div>
       <div className='textBox'>
         <h1>{listings?.name}</h1>
+        <br />
         <div className='imgContainer'>
           <ImageSlider slides={slides}/>
         </div>
-        <h2>Information</h2>
-        <div className='leftSide'>
-          <p>Rent: ${listings?.rent}/month</p>
-          <p>Location: {listings?.location}</p>
-          <p>Start Date: {listings?.startDate.split('T')[0]}</p>
-          <p>End Date: {listings?.endDate.split('T')[0]}</p>
+        <br />
+
+        <div style={{
+            display: 'flex',
+            justifyContent: 'row',
+            gap: "5em",
+            flexWrap: 'wrap'
+          }}>
+          <div >
+            <h2>Information</h2>
+            <div>
+              <p>Rent: ${listings?.rent}/month</p>
+              <p>Location: {listings?.location}</p>
+              <p>Start Date: {listings?.startDate.split('T')[0]}</p>
+              <p>End Date: {listings?.endDate.split('T')[0]}</p>
+            </div>
+          </div>
+          
+
+          <div>
+            <h2>Contact Information</h2>
+            <div>
+              <p>Name: {listings?.createdBy.name}</p>
+              <p>Email: {listings?.createdBy.email}</p>
+          </div>
+          
+          </div>
         </div>
-        <h2 className = 'rightSide'>Contact Information</h2>
-        <div className='rightSide'>
-          <p>Name: {listings?.createdBy.name}</p>
-          <p>Email: {listings?.createdBy.email}</p>
-        </div>
+        
         {/* <div className='rightSide'>
           <ReserveMessageSidebar/>
         </div> */}

@@ -14,7 +14,6 @@ import { Button } from "@/components/ui/button"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
@@ -154,6 +153,11 @@ const Profile = () => {
           </td>
         </tr>
       </table>
+      <Button variant="outline" style={{color: "red", marginTop: "2em", marginLeft: 0}} onClick={() => {
+        Cookies.remove('userId')
+        Cookies.remove('token')
+        navigate('/')
+      }}>Sign Out</Button>
       </CardContent>
       </Card>
 

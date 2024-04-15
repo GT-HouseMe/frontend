@@ -8,6 +8,10 @@ const activeLinkClass =
 const restingLinkClass =
   "block py-2 px-3 md:p-0 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700";
 
+const checkAuth = () => {
+  return Cookies.get('token')
+}
+
 const Navbar = () => {
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 border-b-[1px] border-blue-700">
@@ -21,7 +25,7 @@ const Navbar = () => {
           </span>
         </Link>
         <div className="flex md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
-          {!Cookies.get('token') ?
+          {!checkAuth() ?
             <Link to="/login">
               <button
                   type="button"

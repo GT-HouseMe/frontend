@@ -38,7 +38,7 @@ const Login = () => {
       console.log('User data:', userData);
       Cookies.set('userId', userData.userId, { expires: 7 });  //expires in 7 days
       Cookies.set('token', userData.token, { expires: 7 });  //expires in 7 days
-      navigate('/listings');
+      navigate('/listings', {state: Math.random()});
       return userData;
     } catch (error) {
       console.error('An error occurred:', error);
