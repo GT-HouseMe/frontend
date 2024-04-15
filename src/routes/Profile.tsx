@@ -8,8 +8,16 @@ import { useState, useEffect } from 'react';
 import Listing from './Listing';
 import Internship from './Internship';
 import { useNavigate } from 'react-router-dom';
-import InternshipEdit from './InternshipEdit';
-import ListingEdit from './ListingEdit';
+
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
 
 // Define a type for the listing to match the data structure
 interface Listing {
@@ -97,54 +105,77 @@ const Profile = () => {
   const { name, email, password, description } = userData;
   
   return (
-    <div>
-      <center>
-        <h1>Profile</h1>
-      <br />
-      <br />
+    <div style={{
+      display: 'flex',
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      flexWrap: 'wrap',
+      columnGap: "5em",
+      gap: "3em",
+    }}>
+      <Card style={{
+        flex: 1,
+        width: "350px",
+        maxWidth: "500px",
+        height: "auto",
+        minHeight: 0
+      }}>
+        <CardHeader>
+          <CardTitle>Profile</CardTitle>
+        </CardHeader>
+      <CardContent>
       <table>
         <tr>
-          <th></th>
-          <th><h2>Listings</h2></th>
-          <th><h2>Internships</h2></th>
-        </tr>
-        <tr>
           <td valign="top">
-            <center>
-            <img src={profilepic} width="100px" height="100px"></img>
-            <h2>Name:</h2>
+            <img src={profilepic} width="100px" height="100px" />
+            <br />
+            <h2>Name</h2>
             <h3>{name}</h3>
-            <h2>Email:</h2>
+            <br />
+            <h2>Email</h2>
             <h3>{email}</h3>
-            <h2>Description:</h2>
+            <br />
+            <h2>Description</h2>
             <h3>{description}</h3>
-            </center>
-          </td>
-          <td valign="top">
-            <center>
-            {userListings.map(listing => (
-              <div>
-              <Listing key={listing._id} name={listing.name} location={listing.location} rent={listing.rent} startDate={listing.startDate} endDate={listing.endDate} description={listing.description} />
-              <button onClick = {() => navigate(`/listingEdit/${listing._id}`)}>Edit</button>
-              </div>
-            ))}
-            <button onClick = {() => navigate('/createlisting')}>Add Listing</button>
-            </center>
-          </td>
-          <td valign="top">
-            <center>
-            {userInternships.map(internship => (
-              <div>
-              <Internship key={internship._id} company={internship.company} location={internship.location} startDate={internship.startDate} endDate={internship.endDate} description={internship.description} />
-              <button onClick = {() => navigate(`/internshipEdit/${internship._id}`)}>Edit</button>
-              </div>
-            ))}
-            <button onClick = {() => navigate('/createinternship')}>Add Internship</button>
-            </center>
           </td>
         </tr>
       </table>
-      </center>
+      </CardContent>
+      </Card>
+
+      <Card className="w-[500px]">
+        <CardHeader>
+          <CardTitle>My Listings</CardTitle>
+        </CardHeader>
+      <CardContent>
+        {userListings.map(listing => (
+          <div>
+          <Listing key={listing._id} name={listing.name} location={listing.location} rent={listing.rent} startDate={listing.startDate} endDate={listing.endDate} description={listing.description} />
+          <button onClick = {() => navigate(`/listingEdit/${listing._id}`)}>Edit</button>
+          </div>
+        ))}
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <Button variant="outline" onClick={() => navigate('/createlisting')}>Add Listing</Button>
+        </CardFooter>
+      </Card>
+
+      <Card className="w-[500px]">
+        <CardHeader>
+          <CardTitle>My Internships</CardTitle>
+        </CardHeader>
+      <CardContent>
+        {userInternships.map(internship => (
+          <div>
+          <Internship key={internship._id} company={internship.company} location={internship.location} startDate={internship.startDate} endDate={internship.endDate} description={internship.description} />
+          <button onClick = {() => navigate(`/internshipEdit/${internship._id}`)}>Edit</button>
+          </div>
+        ))}
+      </CardContent>
+      <CardFooter className="flex justify-between">
+        <Button variant="outline" style={{width: "9em"}} onClick={() => navigate('/createinternship')}>Add Internship</Button>
+        </CardFooter>
+      </Card>
     </div>
   );
 };
